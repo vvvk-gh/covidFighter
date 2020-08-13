@@ -1,13 +1,17 @@
+//loads images of fighter, enemies ,
+
 function load_images(){
-    //load fighter , enemies
     enemy_img = new Image();
     enemy_img.src = "assets/virus.png"
 
     fighter_girl = new Image()
-    fighter_girl.src = "assets/girl.png"
+    fighter_girl.src = "assets/girl2.png"
 
     fighter_boy = new Image()
     fighter_boy.src = "assets/man.png"
+
+    mask_img = new Image();
+    mask_img.src = "assets/mask.png"
 }
 
 
@@ -17,11 +21,22 @@ function getUserGender( ) {
     selectedGender = userGender;
 }
 
+//Creates an mask
+function createMask(){
+    maskX = Math.round(Math.random()*((W-fighter.w)/fighter.w)) 
+    maskY = Math.round(Math.random()*((H-fighter.h)/fighter.h))
+    
+    mask = {
+        x : maskX,
+        y: maskY
+    }
+    return mask
+  }
 
 function init(){
 //setup canvas
 canvas = document.getElementById('mycanvas');
-W = canvas.width = 1000;
+W = canvas.width = 1200;
 H = canvas.height = 700;
 
 //Select Gender
@@ -29,6 +44,16 @@ genderOptions = document.getElementById("userGender")
 selectedGender = 'Male';
 //creating canvas Context
 pen = canvas.getContext('2d');
+
+//creating figther
+fighter = {
+    x: 100,
+    y:120,
+    h:80,
+    w:80,
+    color:"green"
+}
+
 
 //creating Enemies
 e1 = {
@@ -61,6 +86,9 @@ e3 = {
 
 enemies = [e1 ,e2 ,e3]
 
+//RandomMask
+randomMask = createMask() 
+console.log(randomMask)
 }
 
 
@@ -73,19 +101,18 @@ function draw(){
 
 //draw GenderPic
    if(selectedGender == "Male"){
-     pen.drawImage(fighter_boy, 100, 120 , 40 , 40)
+     pen.drawImage(fighter_boy, fighter.x,fighter.y , fighter.w , fighter.h)
    }
    else{
-    pen.drawImage(fighter_girl, 10, 20 , 40 , 40)
+    pen.drawImage(fighter_girl, fighter.x,fighter.y , fighter.w , fighter.h)
    }
    
+//Draw Mask
+pen.drawImage(mask_img , randomMask.x*fighter.w , randomMask.y*fighter.h , fighter.w+30 , fighter.h+30)
   
 }
 
 function update() {
-//
-genderOptions.addEventListener('change' , getUserGender)
-console.log(selectedGender)
 //enemies movement
     for(let i in enemies){
         enemies[i].y += enemies[i].speed;
@@ -94,6 +121,10 @@ console.log(selectedGender)
             enemies[i].speed *= -1; 
         }
     }
+
+//updates selected gender 
+   genderOptions.addEventListener('change' , getUserGender)
+   //console.log(selectedGender)
 }
 
 function gameLoop() {
