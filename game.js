@@ -1,11 +1,11 @@
 function load_images(){
     //load fighter , enemies
-
+    enemy_img = new Image();
+    enemy_img.src = "assets/virus.png"
 }
 
 
 function init(){
-
 //setup canvas
 canvas = document.getElementById('mycanvas');
 W = canvas.width = 1000;
@@ -15,72 +15,60 @@ H = canvas.height = 700;
 pen = canvas.getContext('2d');
 
 //creating Enemies
-Enemy1 = {
-    x:140,
+e1 = {
+    x:240,
     y:100,
-    w:50,
-    h:50,
-    speed : 10,
-    color: "green"
+    w:70,
+    h:70,
+    speed : 15,
+    color: "red"
 }
 
-Enemy2 = {
-    x: Enemy1.x +300,
-    y: Enemy1.y+100,
-    w: Enemy1.w,
-    h: Enemy1.h,
-    speed :Enemy1.speed + 4,
-    color :Enemy1.color
+e2 = {
+    x: e1.x +300,
+    y: e1.y+100,
+    w: e1.w,
+    h: e1.h,
+    speed :e1.speed + 10,
+    color :e1.color
 }
 
-Enemy3 = {
-    x: Enemy2.x +200,
-    y: Enemy2.y+100,
-    w: Enemy2.w,
-    h: Enemy1.h,
-    speed :Enemy2.speed +2,
-    color :Enemy2.color
+e3 = {
+    x: e2.x +200,
+    y: e2.y+100,
+    w: e2.w,
+    h: e1.h,
+    speed :e2.speed +5,
+    color :e2.color
     
 }
+
+enemies = [e1 ,e2 ,e3]
 
 }
 
 
 function draw(){
+
    //clear the old frame
    pen.clearRect(0,0,W,H)
-    pen.fillStyle = Enemy2.color;
+   pen.fillStyle = e2.color;
 
-    pen.fillRect(Enemy1.x, Enemy1.y , Enemy1.w , Enemy1.h)
-    pen.fillRect(Enemy2.x, Enemy2.y , Enemy2.w , Enemy2.h)
-    pen.fillRect(Enemy3.x, Enemy3.y , Enemy3.w , Enemy3.h)
+   for(let i in enemies){
+       //pen.fillRect(enemies[i].x , enemies[i].y , enemies[i].w , enemies[i].h)
+        pen.drawImage(enemy_img,enemies[i].x , enemies[i].y , enemies[i].w , enemies[i].h)
 
+   }
 }
 
 function update() {
-    
-    if(Enemy1.y > H - Enemy1.h || Enemy1.y < 0 ){
-        Enemy1.speed *= -1;
+    for(let i in enemies){
+        enemies[i].y += enemies[i].speed;
+        if(enemies[i].y > H - enemies[i].h || enemies[i].y < 0){
+            enemies[i].speed *= -1; 
+        }
     }
-    //movement of fighter up and down
-    Enemy1.y += Enemy1.speed;
-
-    if(Enemy2.y > H - Enemy2.h || Enemy2.y < 0 ){
-        Enemy2.speed *= -1
-    }
-    //movement of fighter up and down
-    Enemy2.y += Enemy2.speed;
-
-    // go in reverse if it reaches its boundaries
-    if(Enemy3.y > H - Enemy3.h || Enemy3.y < 0 ){
-        Enemy3.speed *= -1;
-    }
-    //movement of fighter up and down
-    Enemy3.y += Enemy3.speed;
-
-
 }
-
 
 function gameLoop() {
     console.log(`In game Loop`)
