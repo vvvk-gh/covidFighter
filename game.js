@@ -2,6 +2,19 @@ function load_images(){
     //load fighter , enemies
     enemy_img = new Image();
     enemy_img.src = "assets/virus.png"
+
+    fighter_girl = new Image()
+    fighter_girl.src = "assets/girl.png"
+
+    fighter_boy = new Image()
+    fighter_boy.src = "assets/man.png"
+}
+
+
+function getUserGender( ) {
+    userGender = genderOptions.options[genderOptions.selectedIndex].text
+    console.log(`${userGender}`)
+    selectedGender = userGender;
 }
 
 
@@ -11,6 +24,9 @@ canvas = document.getElementById('mycanvas');
 W = canvas.width = 1000;
 H = canvas.height = 700;
 
+//Select Gender
+genderOptions = document.getElementById("userGender")
+selectedGender = 'Male';
 //creating canvas Context
 pen = canvas.getContext('2d');
 
@@ -49,21 +65,31 @@ enemies = [e1 ,e2 ,e3]
 
 
 function draw(){
-
-   //clear the old frame
+//draw Enemies
    pen.clearRect(0,0,W,H)
-   pen.fillStyle = e2.color;
-
    for(let i in enemies){
-       //pen.fillRect(enemies[i].x , enemies[i].y , enemies[i].w , enemies[i].h)
-        pen.drawImage(enemy_img,enemies[i].x , enemies[i].y , enemies[i].w , enemies[i].h)
-
+    pen.drawImage(enemy_img,enemies[i].x , enemies[i].y , enemies[i].w , enemies[i].h)
    }
+
+//draw GenderPic
+   if(selectedGender == "Male"){
+     pen.drawImage(fighter_boy, 100, 120 , 40 , 40)
+   }
+   else{
+    pen.drawImage(fighter_girl, 10, 20 , 40 , 40)
+   }
+   
+  
 }
 
 function update() {
+//
+genderOptions.addEventListener('change' , getUserGender)
+console.log(selectedGender)
+//enemies movement
     for(let i in enemies){
         enemies[i].y += enemies[i].speed;
+        //boundary limits
         if(enemies[i].y > H - enemies[i].h || enemies[i].y < 0){
             enemies[i].speed *= -1; 
         }
