@@ -1,11 +1,10 @@
-//overlap
-
+//2d collison detection
 function isOverlap(rect1 , rect2 ){
-    if (rect1.x < rect2.x + rect2.w &&
-        rect1.x + rect1.w > rect2.x &&
+    if ((rect1.x-10) < rect2.x + rect2.w &&
+        (rect1.x-10) + rect1.w > rect2.x &&
         rect1.y < rect2.y + rect2.h &&
         rect1.y + rect1.h > rect2.y) {
-        console.log(`Game won`)    
+            return true;
     }
     
 }
@@ -23,9 +22,10 @@ function load_images(){
 
     mask_img = new Image();
     mask_img.src = "assets/mask.png"
+    
 }
 
-
+//Gender Function
 function getUserGender( ) {
     userGender = genderOptions.options[genderOptions.selectedIndex].text
     console.log(`${userGender}`)
@@ -47,8 +47,8 @@ function getUserGender( ) {
 function init(){
 //setup canvas
 canvas = document.getElementById('mycanvas');
-W = canvas.width = 1200;
-H = canvas.height = 700;
+W = canvas.width = 1000;
+H = canvas.height = 500;
 
 //Select Gender
 genderOptions = document.getElementById("userGender")
@@ -56,10 +56,13 @@ selectedGender = 'Male';
 
 //creating canvas Context
 pen = canvas.getContext('2d');
-
+//score 
+score = 100;
+//game over
+game_over = false;
 //creating Enemies
 e1 = {
-    x:240,
+    x:200,
     y:100,
     w:70,
     h:70,
@@ -68,7 +71,7 @@ e1 = {
 }
 
 e2 = {
-    x: e1.x +300,
+    x: e1.x +250,
     y: e1.y+100,
     w: e1.w,
     h: e1.h,
@@ -77,7 +80,7 @@ e2 = {
 }
 
 e3 = {
-    x: e2.x +200,
+    x: e2.x +250,
     y: e2.y+100,
     w: e2.w,
     h: e1.h,
@@ -88,7 +91,7 @@ e3 = {
 
 enemies = [e1 ,e2 ,e3]
 
-//creating figther
+//creating figther or player
 fighter = {
     x: 20,
     y: H/2,
@@ -96,6 +99,7 @@ fighter = {
     w:90,
     speed:20,
     moving:"false",
+    life:2
 }
 
 //creating mask
@@ -139,8 +143,6 @@ function draw(){
    
 //Draw Mask
 pen.drawImage(mask_img , mask.x , mask.y , mask.w , mask.h)
-
-
 }
 
 function update() {
@@ -157,7 +159,26 @@ function update() {
    //console.log(selectedGender)
 
 //Check overlap
-isOverlap(fighter , mask)
+//check does we win
+if(isOverlap(fighter, mask)){
+    console.log('You Won');
+    alert(`You Won`);
+    game_over = true;
+    return;
+
+}
+
+//check is player had contacted the virsus
+for (let i in enemies) {
+ if(isOverlap(fighter , enemies[i])){
+     console.log(`Game Over`)
+     alert('Game Over');
+     game_over = true;
+     return ;
+ }    
+    
+}
+
 //player movement 
 if (fighter.moving == true) {
        fighter.x += fighter.speed;
@@ -167,6 +188,9 @@ if (fighter.moving == true) {
 
 function gameLoop() {
     console.log(`In game Loop`)
+    if(game_over == true) {
+        clearInterval(f)
+    }
     draw()
     update()
 }   

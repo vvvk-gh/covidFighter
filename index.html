@@ -6,22 +6,38 @@
     <title>Covid Fighter</title>
     <style>
         
+        body{
+            margin :0px;
+            padding:0px;
+            color:white;
+            background:black;
+        }
+
         canvas{
             background-image: url("assets/bg5.png");
-            border : 5px solid black;
+            border : 5px solid white;
             background-size: cover;
             display: block;
             margin: 0 auto;
         }
+
+        #intro{
+            color:white;
+            background: black;
+        }   
+
     </style>
     <script defer src="game.js"></script>
 </head>
 <body>
 
-    <div id="intro" style=" margin-bottom:50px">
-        <h1>Covid Fighter</h1>
-        <label><b>Select Gender :</b>
-            <select id="userGender">
+    <div id="intro">
+        <h1 style="text-align: center;">Covid Fighter</h1>
+    
+    </div>
+    <div>
+        <label>Select Gender :
+            <select id="userGender" style="font-size: 15px;">
                 <option value = "Male">Male</option>
                 <option value = "Female">Female</option>
             </select>
