@@ -1,5 +1,19 @@
-//loads images of fighter, enemies ,
+//overlap
 
+function isOverlap(rect1 , rect2 ){
+    if (rect1.x < rect2.x + rect2.w &&
+        rect1.x + rect1.w > rect2.x &&
+        rect1.y < rect2.y + rect2.h &&
+        rect1.y + rect1.h > rect2.y) {
+        console.log(`Game won`)    
+    }
+    
+}
+
+
+
+
+//loads images of fighter, enemies ,
 function load_images(){
     enemy_img = new Image();
     enemy_img.src = "assets/virus.png"
@@ -21,17 +35,17 @@ function getUserGender( ) {
     selectedGender = userGender;
 }
 
-//Creates an mask
-function createMask(){
-    maskX = Math.round(Math.random()*((W-fighter.w)/fighter.w)) 
-    maskY = Math.round(Math.random()*((H-fighter.h)/fighter.h))
+//Creates an Random_mask
+// function createMask(){
+//     maskX = Math.round(Math.random()*((W-fighter.w)/fighter.w)) 
+//     maskY = Math.round(Math.random()*((H-fighter.h)/fighter.h))
     
-    mask = {
-        x : maskX,
-        y: maskY
-    }
-    return mask
-  }
+//     mask = {
+//         x : maskX,
+//         y: maskY
+//     }
+//     return mask
+//   }
 
 function init(){
 //setup canvas
@@ -42,18 +56,9 @@ H = canvas.height = 700;
 //Select Gender
 genderOptions = document.getElementById("userGender")
 selectedGender = 'Male';
+
 //creating canvas Context
 pen = canvas.getContext('2d');
-
-//creating figther
-fighter = {
-    x: 100,
-    y:120,
-    h:80,
-    w:80,
-    color:"green"
-}
-
 
 //creating Enemies
 e1 = {
@@ -86,9 +91,37 @@ e3 = {
 
 enemies = [e1 ,e2 ,e3]
 
+//creating figther
+fighter = {
+    x: 20,
+    y: H/2,
+    h:90,
+    w:90,
+    speed:20,
+    moving:"false",
+}
+
+//creating mask
+mask = {
+    x : W-100,
+    y :H/2,
+    w : 90,
+    h : 90
+}
+
+//event Listeners 
+canvas.addEventListener("mousedown" , ()=>{
+    console.log('mouseDown');
+    fighter.moving = true 
+});
+
+canvas.addEventListener("mouseup" , ()=>{
+    console.log('mouse Released');
+    fighter.moving = false
+});
 //RandomMask
-randomMask = createMask() 
-console.log(randomMask)
+//randomMask = createMask() 
+//console.log(randomMask)
 }
 
 
@@ -108,8 +141,9 @@ function draw(){
    }
    
 //Draw Mask
-pen.drawImage(mask_img , randomMask.x*fighter.w , randomMask.y*fighter.h , fighter.w+30 , fighter.h+30)
-  
+pen.drawImage(mask_img , mask.x , mask.y , mask.w , mask.h)
+
+
 }
 
 function update() {
@@ -121,17 +155,24 @@ function update() {
             enemies[i].speed *= -1; 
         }
     }
-
 //updates selected gender 
    genderOptions.addEventListener('change' , getUserGender)
    //console.log(selectedGender)
+
+//Check overlap
+isOverlap(fighter , mask)
+//player movement 
+if (fighter.moving == true) {
+       fighter.x += fighter.speed;
+}
+
 }
 
 function gameLoop() {
     console.log(`In game Loop`)
     draw()
     update()
-}
+}   
 
 load_images()
 init()
