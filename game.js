@@ -101,7 +101,7 @@ fighter = {
     w:70,
     speed:20,
     moving:"false",
-    life:2
+    chances:1
 }
 
 //creating heart 
@@ -159,7 +159,8 @@ pen.drawImage(mask_img , mask.x , mask.y , mask.w , mask.h)
 //Draw hearts
 pen.drawImage(heart_img, heart.x , heart.y , heart.w , heart.h); 
 
-pen.fillText("X " +fighter.life , heart.x+30 , heart.y+15)
+//Lives Remaining
+pen.fillText("X " +fighter.chances , heart.x+30 , heart.y+15)
 
 }
 
@@ -179,20 +180,23 @@ function update() {
 //Check overlap
 //check does we win
 if(isOverlap(fighter, mask)){
-    console.log('You Won');
+    //console.log('You Won');
     alert(`You Won`);
     game_over = true;
-    return;
 
 }
 
 //check is player had contacted the virsus
 for (let i in enemies) {
  if(isOverlap(fighter , enemies[i])){
-     console.log(`Game Over`)
-     alert('Game Over');
-     game_over = true;
-     return ;
+    //reduces the life chances by 1
+    fighter.chances --;
+   //game over if life chances are 0
+    if(fighter.chances < 1){
+        alert(`Game Over 
+        Lives Remaing: ${fighter.chances}`)
+        game_over = true;
+    }
  }    
     
 }
