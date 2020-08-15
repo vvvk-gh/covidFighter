@@ -22,7 +22,9 @@ function load_images(){
 
     mask_img = new Image();
     mask_img.src = "assets/mask.png"
-    
+
+    heart_img = new Image();
+    heart_img.src = "assets/h_final.png"
 }
 
 //Gender Function
@@ -95,20 +97,30 @@ enemies = [e1 ,e2 ,e3]
 fighter = {
     x: 20,
     y: H/2,
-    h:90,
-    w:90,
+    h:70,
+    w:70,
     speed:20,
     moving:"false",
     life:2
+}
+
+//creating heart 
+heart = {
+    x:20,
+    y:20,
+    h:25,
+    w:25,
 }
 
 //creating mask
 mask = {
     x : W-100,
     y :H/2,
-    w : 90,
-    h : 90
+    w : 70,
+    h : 70
 }
+
+
 
 //event Listeners 
 canvas.addEventListener("mousedown" , ()=>{
@@ -143,6 +155,12 @@ function draw(){
    
 //Draw Mask
 pen.drawImage(mask_img , mask.x , mask.y , mask.w , mask.h)
+
+//Draw hearts
+pen.drawImage(heart_img, heart.x , heart.y , heart.w , heart.h); 
+
+pen.fillText("X " +fighter.life , heart.x+30 , heart.y+15)
+
 }
 
 function update() {
