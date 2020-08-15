@@ -15,7 +15,7 @@ function load_images(){
     enemy_img.src = "assets/virus.png"
 
     fighter_girl = new Image()
-    fighter_girl.src = "assets/girl2.png"
+    fighter_girl.src = "assets/girl.png"
 
     fighter_boy = new Image()
     fighter_boy.src = "assets/man.png"
@@ -24,7 +24,7 @@ function load_images(){
     mask_img.src = "assets/mask.png"
 
     heart_img = new Image();
-    heart_img.src = "assets/h_final.png"
+    heart_img.src = "assets/heart.png"
 }
 
 //Gender Function
