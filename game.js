@@ -10,9 +10,6 @@ function isOverlap(rect1 , rect2 ){
     
 }
 
-
-
-
 //loads images of fighter, enemies ,
 function load_images(){
     enemy_img = new Image();
